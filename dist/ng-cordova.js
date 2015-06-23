@@ -4929,6 +4929,7 @@ angular.module('ngCordova.plugins', [
   'ngCordova.plugins.healthKit',
   'ngCordova.plugins.httpd',
   'ngCordova.plugins.iAd',
+  'ngCordova.plugins.iBeacon',
   'ngCordova.plugins.imagePicker',
   'ngCordova.plugins.inAppBrowser',
   'ngCordova.plugins.keyboard',
