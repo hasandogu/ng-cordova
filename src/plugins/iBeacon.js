@@ -2,18 +2,66 @@
 // link   :   https://github.com/petermetz/cordova-plugin-ibeacon
 
 angular.module('ngCordova.plugins.iBeacon', [])
-.factory('$cordovaiBeacon', ['$q', function ($q) {
+.factory('$cordovaiBeacon', ['$q', '$rootScope', '$timeout', function ($q, $rootScope, $timeout) {
 
+    document.addEventListener("deviceready", function () {
+      if(cordova.plugins.locationManager) {
+        var delegate = new cordova.plugins.locationManager.Delegate();
+    
+        delegate.didDetermineStateForRegion = function (pluginResult) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:didDetermineStateForRegion', pluginResult);
+          });
+        };
+    
+        delegate.didStartMonitoringForRegion = function (pluginResult) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:didStartMonitoringForRegion', pluginResult);
+          });
+        };
+    
+        delegate.didExitRegion = function (pluginResult) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:didExitRegion', pluginResult);
+          });
+        };
+    
+        delegate.didEnterRegion = function (pluginResult) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:didEnterRegion', pluginResult);
+          });
+        };
+    
+        delegate.didRangeBeaconsInRegion = function (pluginResult) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:didRangeBeaconsInRegion', pluginResult);
+          });
+        };
+    
+        delegate.peripheralManagerDidStartAdvertising = function (pluginResult) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:peripheralManagerDidStartAdvertising', pluginResult);
+          });
+        };
+    
+        delegate.peripheralManagerDidUpdateState = function (pluginResult) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:peripheralManagerDidUpdateState', pluginResult);
+          });
+        };
+    
+        delegate.didChangeAuthorizationStatus = function (status) {
+          $timeout(function () {
+            $rootScope.$broadcast('$cordovaiBeacon:didChangeAuthorizationStatus', status);
+          });
+        };
+   
+        cordova.plugins.locationManager.setDelegate(delegate);
+      }
+	  
+    }, false);  
+	
   return {
-
-	createDelegate: function () {
-	  return new cordova.plugins.locationManager.Delegate();
-	},
-
-	setDelegate: function (delegate) {
-	  return cordova.plugins.locationManager.setDelegate(delegate);
-	},
-
 	createBeaconRegion: function (identifier, uuid, major, minor) {
 	  return new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
 	},
@@ -161,6 +209,5 @@ angular.module('ngCordova.plugins.iBeacon', [])
 
 	  return q.promise;
 	}
-
   };
 }]);
