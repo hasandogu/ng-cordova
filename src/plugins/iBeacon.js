@@ -50,9 +50,9 @@ angular.module('ngCordova.plugins.iBeacon', [])
           });
         };
     
-        delegate.didChangeAuthorizationStatus = function (status) {
+        delegate.didChangeAuthorizationStatus = function (pluginResult) {
           $timeout(function () {
-            $rootScope.$broadcast('$cordovaiBeacon:didChangeAuthorizationStatus', status);
+            $rootScope.$broadcast('$cordovaiBeacon:didChangeAuthorizationStatus', pluginResult);
           });
         };
    
