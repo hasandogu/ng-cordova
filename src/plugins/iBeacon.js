@@ -138,6 +138,18 @@ angular.module('ngCordova.plugins.iBeacon', [])
 	  return q.promise;
 	},	
 	
+	isMonitoringAvailableForClass: function (beaconRegion) {
+	  var q = $q.defer();
+
+	  cordova.plugins.locationManager.isMonitoringAvailableForClass(beaconRegion).then(function (result) {
+		q.resolve(result);
+	  }).fail(function (error) {
+		q.reject(error);
+	  }).done();
+
+	  return q.promise;
+	},
+	
 	startMonitoringForRegion: function (beaconRegion) {
 	  var q = $q.defer();
 
@@ -173,7 +185,7 @@ angular.module('ngCordova.plugins.iBeacon', [])
 
 	  return q.promise;
 	},
-	
+
 	isRangingAvailable: function () {
 	  var q = $q.defer();
 
