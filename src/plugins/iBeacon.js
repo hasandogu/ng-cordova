@@ -62,8 +62,8 @@ angular.module('ngCordova.plugins.iBeacon', [])
     }, false);  
 	
   return {
-	createBeaconRegion: function (identifier, uuid, major, minor) {
-	  return new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
+	createBeaconRegion: function (identifier, uuid, major, minor, notifyEntryStateOnDisplay) {
+	  return new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor, notifyEntryStateOnDisplay);
 	},
 
 	getAuthorizationStatus: function () {
