@@ -533,97 +533,100 @@ angular.module('ngCordova.plugins.beacon', [])
     var callbackPeripheralManagerDidUpdateState = null;
     var callbackDidChangeAuthorizationStatus = null;
 
-    document.addEventListener('deviceready', function () {
-      if ($window.cordova &&
-          $window.cordova.plugins &&
-          $window.cordova.plugins.locationManager) {
-        var delegate = new $window.cordova.plugins.locationManager.Delegate();
+	function setDelegate() {
+		document.addEventListener('deviceready', function () {
+		  if ($window.cordova &&
+			  $window.cordova.plugins &&
+			  $window.cordova.plugins.locationManager) {
+			var delegate = new $window.cordova.plugins.locationManager.Delegate();
 
-        delegate.didDetermineStateForRegion = function (pluginResult) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:didDetermineStateForRegion', pluginResult);
-          });
+			delegate.didDetermineStateForRegion = function (pluginResult) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:didDetermineStateForRegion', pluginResult);
+			  });
 
-          if (callbackDidDetermineStateForRegion) {
-            callbackDidDetermineStateForRegion(pluginResult);
-          }
-        };
+			  if (callbackDidDetermineStateForRegion) {
+				callbackDidDetermineStateForRegion(pluginResult);
+			  }
+			};
 
-        delegate.didStartMonitoringForRegion = function (pluginResult) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:didStartMonitoringForRegion', pluginResult);
-          });
+			delegate.didStartMonitoringForRegion = function (pluginResult) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:didStartMonitoringForRegion', pluginResult);
+			  });
 
-          if (callbackDidStartMonitoringForRegion) {
-            callbackDidStartMonitoringForRegion(pluginResult);
-          }
-        };
+			  if (callbackDidStartMonitoringForRegion) {
+				callbackDidStartMonitoringForRegion(pluginResult);
+			  }
+			};
 
-        delegate.didExitRegion = function (pluginResult) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:didExitRegion', pluginResult);
-          });
+			delegate.didExitRegion = function (pluginResult) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:didExitRegion', pluginResult);
+			  });
 
-          if (callbackDidExitRegion) {
-            callbackDidExitRegion(pluginResult);
-          }
-        };
+			  if (callbackDidExitRegion) {
+				callbackDidExitRegion(pluginResult);
+			  }
+			};
 
-        delegate.didEnterRegion = function (pluginResult) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:didEnterRegion', pluginResult);
-          });
+			delegate.didEnterRegion = function (pluginResult) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:didEnterRegion', pluginResult);
+			  });
 
-          if (callbackDidEnterRegion) {
-            callbackDidEnterRegion(pluginResult);
-          }
-        };
+			  if (callbackDidEnterRegion) {
+				callbackDidEnterRegion(pluginResult);
+			  }
+			};
 
-        delegate.didRangeBeaconsInRegion = function (pluginResult) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:didRangeBeaconsInRegion', pluginResult);
-          });
+			delegate.didRangeBeaconsInRegion = function (pluginResult) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:didRangeBeaconsInRegion', pluginResult);
+			  });
 
-          if (callbackDidRangeBeaconsInRegion) {
-            callbackDidRangeBeaconsInRegion(pluginResult);
-          }
-        };
+			  if (callbackDidRangeBeaconsInRegion) {
+				callbackDidRangeBeaconsInRegion(pluginResult);
+			  }
+			};
 
-        delegate.peripheralManagerDidStartAdvertising = function (pluginResult) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:peripheralManagerDidStartAdvertising', pluginResult);
-          });
+			delegate.peripheralManagerDidStartAdvertising = function (pluginResult) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:peripheralManagerDidStartAdvertising', pluginResult);
+			  });
 
-          if (callbackPeripheralManagerDidStartAdvertising) {
-            callbackPeripheralManagerDidStartAdvertising(pluginResult);
-          }
-        };
+			  if (callbackPeripheralManagerDidStartAdvertising) {
+				callbackPeripheralManagerDidStartAdvertising(pluginResult);
+			  }
+			};
 
-        delegate.peripheralManagerDidUpdateState = function (pluginResult) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:peripheralManagerDidUpdateState', pluginResult);
-          });
+			delegate.peripheralManagerDidUpdateState = function (pluginResult) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:peripheralManagerDidUpdateState', pluginResult);
+			  });
 
-          if (callbackPeripheralManagerDidUpdateState) {
-            callbackPeripheralManagerDidUpdateState(pluginResult);
-          }
-        };
+			  if (callbackPeripheralManagerDidUpdateState) {
+				callbackPeripheralManagerDidUpdateState(pluginResult);
+			  }
+			};
 
-        delegate.didChangeAuthorizationStatus = function (status) {
-          $timeout(function () {
-            $rootScope.$broadcast('$cordovaBeacon:didChangeAuthorizationStatus', status);
-          });
+			delegate.didChangeAuthorizationStatus = function (status) {
+			  $timeout(function () {
+				$rootScope.$broadcast('$cordovaBeacon:didChangeAuthorizationStatus', status);
+			  });
 
-          if (callbackDidChangeAuthorizationStatus) {
-            callbackDidChangeAuthorizationStatus(status);
-          }
-        };
+			  if (callbackDidChangeAuthorizationStatus) {
+				callbackDidChangeAuthorizationStatus(status);
+			  }
+			};
 
-        $window.cordova.plugins.locationManager.setDelegate(delegate);
-      }
-    }, false);
+			$window.cordova.plugins.locationManager.setDelegate(delegate);
+		  }
+		}, false);
+	}
 
     return {
+	  setDelegate: setDelegate,
       setCallbackDidDetermineStateForRegion: function (callback) {
         callbackDidDetermineStateForRegion = callback;
       },
